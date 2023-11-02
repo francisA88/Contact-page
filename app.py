@@ -13,7 +13,7 @@ app = Flask(__name__)
 @app.route('/', methods=['GET', 'POST'])
 def main():
 	sender_email = mail_config.get('MAIL_USERNAME')
-	recipient_email = os.getenv('RECIPIENT_EMAIL')
+	recipient_emails = os.getenv('RECIPIENT_EMAIL').split(',')
 	
 	if request.method == 'POST':
 		values = request.values
@@ -43,6 +43,8 @@ def main():
 		server.starttls()
 		server.login(sender_email, mail_config.get('MAIL_PASSWORD'))
 
-		server.sendmail(sender_email, recipient_email, msg.as_string())
+		for recipient_email in recipient_emails:
+			server.sendmail(sender_email, recipient_email, msg.as_string())
+		
 		server.quit()
 	return render_template('form.html')
