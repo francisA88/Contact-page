@@ -9,8 +9,7 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #acd419;
-    background-color: brown;
+    background-color: #acd41977;
     color: white;
     font-family: sans-serif;
     min-height: 100vh;
@@ -66,14 +65,9 @@ label{
     outline: solid 2px rgba(165, 42, 42, 10);
 }
 
-textarea{ min-height: 90px; }
+textarea{ min-height: 100px; }
 
-span.check{
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: center;
-}
-input[type=checkbox]{ accent-color: brown; }
+
 input[type=submit]{
     height: 40px;
     border: none;

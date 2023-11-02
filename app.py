@@ -1,4 +1,5 @@
 import sys
+import os
 
 from flask import Flask, render_template, request
 from flask_mail import Mail, Message
@@ -13,38 +14,19 @@ mail = Mail(app)
 
 @app.route('/', methods=['GET', 'POST'])
 def main():
-	questions = {
-		'Q1':'School name',
-		'Q2': 'Course of study',
-		'Q3': 'Current year',
-		'Q4': 'Did the course meet your expectations? If not, why?'
-	}
 	if request.method == 'POST':
-		try:
-			vals = request.values
-			name = vals.get('name')
-			email = vals.get('email')
-			response = \
-			f'''Thank you for taking this survey, {name}!
+		values = request.values
+		message = Message(
+			"E-mail from {values.get('name')}",
+			sender = mail_config.get('MAIL_USERNAME'),
+			recipients = [os.getenv("RECIPIENT_EMAIL")]
+		)
+		message.body = f'''
+			{values.get('message')}
 
-			Below are the details of your response:
+			My email address: {values.get('email')}.
+
+			{values.get('name')}.
 			'''
-			for Q in questions:
-				ques = questions[Q]
-				ans = vals.get(Q)
-				response += f'{ques}: {ans}\n'
-			mail_response = Message(
-				'School Survey Feedback',
-				sender = mail_config.get('MAIL_USERNAME'),
-				recipients = [email]
-			)
-			if vals.get('check') == 'on':
-				mail_response.body = response
-				mail.send(mail_response)
-
-			return "200"
-		except Exception as e:
-			print(e)
-			return "500"
-
+		mail.send(message)
 	return render_template('form.html')
