@@ -4,9 +4,6 @@ from smtplib import SMTP
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-os.environ['RECIPIENT_EMAIL'] = 'francisali692@gmail.com'
-os.environ['MAIL_PASSWORD'] = 'U5T3G9ZX6MLKfOdq'
-
 from flask import Flask, render_template, request
 from mail_config import mail_config
 
